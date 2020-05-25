@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [notice, setNotice] = useState('');
+  const [noticeList, setNoticeList] = useState([]);
+  
+  const onChangeNoticeInput = (e) => {
+    setNotice(e.target.value);
+  };
+  const createNotice = () => {
+    setNoticeList([...noticeList, notice]);
+  };
+  const deleteNotice = (index) => {
+    setNoticeList([...noticeList].filter(notice => [...noticeList].indexOf(notice) !== index));
+  };
+  const updateNotice = (index) => {
+    let newList = [...noticeList];
+    newList[index] = "Changed"     
+    setNoticeList(newList);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>Notice List Length - {noticeList.length}</div>
+      {noticeList.map((notice, index) => { return <div key={index}>{notice}<button onClick={() => updateNotice(index)}>Edit</button><button onClick={() => deleteNotice(index)}>Delete</button></div> })}
+      <div>Shows Notice - {notice}</div>
+      <input type="text" onChange={onChangeNoticeInput} />
+      <button onClick={createNotice}>Save Notice</button>
     </div>
   );
 }
