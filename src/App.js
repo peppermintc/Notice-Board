@@ -29,6 +29,7 @@ function App() {
   };
   const toggleEditTextBox = (index) => {
     const functionButtons = Array.prototype.slice.call(document.getElementsByName("functionButtons"));
+
     // Toggle Mode
     if (editMode === true) {
       setEditMode(false);
