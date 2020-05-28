@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
 function App() {
+
   // DOM
   const noticeEditTextInputBox = document.getElementById("noticeEditTextInputBox");
   const createTool = document.getElementById("createTool");
   const editTool = document.getElementById("editTool");
-  const functionButtons = Array.prototype.slice.call(document.getElementsByName("functionButtons"));
   
   // Hook
   const [notice, setNotice] = useState('');
@@ -28,6 +28,7 @@ function App() {
     setNoticeList([...noticeList].filter((notice, index) => index !== indexToDelete));
   };
   const toggleEditTextBox = (index) => {
+    const functionButtons = Array.prototype.slice.call(document.getElementsByName("functionButtons"));
     // Toggle Mode
     if (editMode === true) {
       setEditMode(false);
@@ -39,6 +40,7 @@ function App() {
       setEditMode(true);
       createTool.style.display = 'none';
       editTool.style.display = 'block';
+      console.log(functionButtons);
       functionButtons.map((buttons) => buttons.style.display = 'none');
     }
 
@@ -54,7 +56,7 @@ function App() {
   // HTML
   const noticeHTML = (notice, index) => {
     return (
-      <div>
+      <div key={index}>
         Index: {index}<br/>
         Notice: {notice}
         <div name="functionButtons" style={{ display: 'block' }}>
