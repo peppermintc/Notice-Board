@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import logo from './img/logo.png';
 
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
@@ -71,6 +74,16 @@ function App() {
   // JSX
   return (
     <div>
+      <List style={{ backgroundColor: '#232f3e', color: 'white', maxWidth: '270px', height: '100%' }}>
+        <div>
+          <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '10px 10px 10px 10px' }}/></a>
+        </div>
+        <ListItem button>Hellow</ListItem>
+        <ListItem button>Hellow</ListItem>
+        <ListItem button>Hellow</ListItem>        
+      </List>
+
+
       <div>Notice List Length - {noticeList.length}</div>
       {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
       <div>Shows Current Writting Notice: {notice}</div>
