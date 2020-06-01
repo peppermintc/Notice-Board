@@ -3,6 +3,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import logo from './img/logo.png';
 
+import Grid from '@material-ui/core/Grid';
+
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
 function App() {
@@ -73,15 +75,18 @@ function App() {
 
   // JSX
   return (
-    <div>
-      <List style={{ backgroundColor: '#232f3e', color: 'white', maxWidth: '270px', height: '100%' }}>
+    <div style={{height: '100%'}}>
+      <Grid container style={{height: '100%'}}>
+        <Grid item>
+      <List style={{ backgroundColor: '#232f3e', color: 'white', maxWidth: '270px', height: '100%', padding: '0 0 0 0' }}>
         <div>
-          <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '10px 10px 10px 10px' }}/></a>
+          <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
         <ListItem button>Hellow</ListItem>
         <ListItem button>Hellow</ListItem>
         <ListItem button>Hellow</ListItem>        
       </List>
+        </Grid>
 
 
       <div>Notice List Length - {noticeList.length}</div>
@@ -99,6 +104,8 @@ function App() {
         <input type="text" id="noticeEditTextInputBox" onChange={onChangeNoticeEditInput} />
         <button onClick={updateNotice}>Save Notice</button>
       </div>
+
+      </Grid>
     </div>
   );
 }
