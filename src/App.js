@@ -119,13 +119,13 @@ function App() {
             <TextField label="Title" onChange={onChangeNoticeInput} placeholder={"Enter Title"} style={{width:'100%'}}/>
           </DialogTitle>
           <DialogContent dividers>
-            Content
+            <TextField multiline label="Content" rows="9" variant="outlined" style={{width:'100%',height:'28vh'}}/>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={()=>createNotice()} color="primary">
+            <Button autoFocus onClick={()=>createNotice()} color="primary" variant="contained">
               Save
             </Button>
-            <Button onClick={toggleDialog} color="primary">
+            <Button onClick={toggleDialog} color="primary" variant="contained">
               Close
             </Button>
           </DialogActions>
