@@ -9,6 +9,11 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
 function App() {
@@ -84,6 +89,12 @@ function App() {
     );
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  
+  const toggleDialog = () => {
+    setOpenDialog(!openDialog)
+  };
+
   // JSX
   return (
     <div style={{height: '100%'}}>
@@ -100,7 +111,24 @@ function App() {
       <div style={{ color:'white', float: 'left', width: '85%', height: '100%', backgroundColor: '#1a232e' }}>
         <div style={{ height:'96px', width: '100%', backgroundColor: '#1a232e' }} />
         <div style={{ fontWeight: 'bold', marginLeft: '20px', fontSize: '20px', display: 'inline-block'}}>Total List : {noticeList.length}</div>
-        <Button style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
+        <Button onClick={toggleDialog} style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
+        <Dialog onClose={toggleDialog} open={openDialog} >
+          <DialogTitle id="customized-dialog-title" onClose={toggleDialog} style={{ width: '45vw', maxWidth: '90%' }}>
+            Title
+          </DialogTitle>
+          <DialogContent dividers>
+            Content
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={toggleDialog} color="primary">
+              Save
+            </Button>
+            <Button onClick={toggleDialog} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
 
         <div>Shows Current Writting Notice: {notice}</div>
