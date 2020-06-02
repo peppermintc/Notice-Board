@@ -3,7 +3,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import logo from './img/logo.png';
 
-import Grid from '@material-ui/core/Grid';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
@@ -62,23 +65,29 @@ function App() {
   // HTML
   const noticeHTML = (notice, index) => {
     return (
-      <div key={index}>
-        Index: {index}<br/>
-        Notice: {notice}
-        <div name="functionButtons" style={{ display: 'block' }}>
-          <button onClick={() => toggleEditTextBox(index)}>Edit</button>
-          <button onClick={() => deleteNotice(index)}>Delete</button>
-        </div>
-      </div> 
+      <ExpansionPanel style={{width:'100%'}}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <div key={index}>
+            Index: {index}<br/>
+            Notice: {notice}
+            <div name="functionButtons" style={{ display: 'block' }}>
+              <button onClick={() => toggleEditTextBox(index)}>Edit</button>
+              <button onClick={() => deleteNotice(index)}>Delete</button>
+            </div>
+          </div> 
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          Hello
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     );
   };
 
   // JSX
   return (
     <div style={{height: '100%'}}>
-      <Grid container style={{height: '100%'}}>
-        <Grid item>
-      <List style={{ backgroundColor: '#232f3e', color: 'white', maxWidth: '270px', height: '100%', padding: '0 0 0 0' }}>
+      {/* Sidebar */}
+      <List style={{ float: 'left', height: '100%', backgroundColor: '#232f3e', color: 'white', width: '15%', padding: '0 0 0 0' }}>
         <div>
           <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
@@ -86,26 +95,25 @@ function App() {
         <ListItem button>Hellow</ListItem>
         <ListItem button>Hellow</ListItem>        
       </List>
-        </Grid>
 
-
-      <div>Notice List Length - {noticeList.length}</div>
-      {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
-      <div>Shows Current Writting Notice: {notice}</div>
-      
-      <div style={{display: 'block'}} id="createTool">
-        <div>Create Notice</div>
-        <input type="text" onChange={onChangeNoticeInput} />
-        <button onClick={createNotice}>Save Notice</button>
+      <div style={{float: 'left', width: '85%'}}>
+        <div style={{ height:'96px', width: '100%', backgroundColor: '#232F3E' }} />
+        <div>Notice List Length - {noticeList.length}</div>
+        {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
+        <div>Shows Current Writting Notice: {notice}</div>
+        
+        <div style={{display: 'block'}} id="createTool">
+          <div>Create Notice</div>
+          <input type="text" onChange={onChangeNoticeInput} />
+          <button onClick={createNotice}>Save Notice</button>
+        </div>
+        
+        <div style={{display: 'none'}} id="editTool">
+          <div>Edit Notice index: {selectedNoticeIndex}</div>
+          <input type="text" id="noticeEditTextInputBox" onChange={onChangeNoticeEditInput} />
+          <button onClick={updateNotice}>Save Notice</button>
+        </div>
       </div>
-      
-      <div style={{display: 'none'}} id="editTool">
-        <div>Edit Notice index: {selectedNoticeIndex}</div>
-        <input type="text" id="noticeEditTextInputBox" onChange={onChangeNoticeEditInput} />
-        <button onClick={updateNotice}>Save Notice</button>
-      </div>
-
-      </Grid>
     </div>
   );
 }
