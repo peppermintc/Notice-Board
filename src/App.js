@@ -7,6 +7,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
 
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
@@ -65,8 +66,8 @@ function App() {
   // HTML
   const noticeHTML = (notice, index) => {
     return (
-      <ExpansionPanel style={{width:'100%'}}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+      <ExpansionPanel key={index} style={{width:'60%', backgroundColor: '#1a232e', border: '5px dashed white', margin: '20px'}}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{ color: '#FF9500', fontWeight: 'bold', fontSize: '18px' }} >
           <div key={index}>
             Index: {index}<br/>
             Notice: {notice}
@@ -76,7 +77,7 @@ function App() {
             </div>
           </div> 
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails style={{ color: 'white' }}>
           Hello
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -87,7 +88,7 @@ function App() {
   return (
     <div style={{height: '100%'}}>
       {/* Sidebar */}
-      <List style={{ float: 'left', height: '100%', backgroundColor: '#232f3e', color: 'white', width: '15%', padding: '0 0 0 0' }}>
+      <List style={{ float: 'left', height: '100%', backgroundColor: '#1a232e', color: 'white', width: '15%', padding: '0 0 0 0'}}>
         <div>
           <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
@@ -96,10 +97,12 @@ function App() {
         <ListItem button>Hellow</ListItem>        
       </List>
 
-      <div style={{float: 'left', width: '85%'}}>
-        <div style={{ height:'96px', width: '100%', backgroundColor: '#232F3E' }} />
-        <div>Notice List Length - {noticeList.length}</div>
+      <div style={{ color:'white', float: 'left', width: '85%', height: '100%', backgroundColor: '#1a232e' }}>
+        <div style={{ height:'96px', width: '100%', backgroundColor: '#1a232e' }} />
+        <div style={{ fontWeight: 'bold', marginLeft: '20px', fontSize: '20px', display: 'inline-block'}}>Total List : {noticeList.length}</div>
+        <Button style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
         {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
+
         <div>Shows Current Writting Notice: {notice}</div>
         
         <div style={{display: 'block'}} id="createTool">
