@@ -13,6 +13,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import TextField from '@material-ui/core/TextField';
 
 let dummy = ['This is example Notice 1', 'This is example Notice 2'];
 
@@ -37,6 +38,7 @@ function App() {
   };
   const createNotice = () => {
     setNoticeList([...noticeList, notice]);
+    toggleDialog();
   };
   const deleteNotice = (indexToDelete) => {
     setNoticeList([...noticeList].filter((notice, index) => index !== indexToDelete));
@@ -114,13 +116,13 @@ function App() {
         <Button onClick={toggleDialog} style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
         <Dialog onClose={toggleDialog} open={openDialog} >
           <DialogTitle id="customized-dialog-title" onClose={toggleDialog} style={{ width: '45vw', maxWidth: '90%' }}>
-            Title
+            <TextField label="Title" onChange={onChangeNoticeInput} placeholder={"Enter Title"} style={{width:'100%'}}/>
           </DialogTitle>
           <DialogContent dividers>
             Content
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={toggleDialog} color="primary">
+            <Button autoFocus onClick={()=>createNotice()} color="primary">
               Save
             </Button>
             <Button onClick={toggleDialog} color="primary">
@@ -131,13 +133,13 @@ function App() {
 
         {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
 
-        <div>Shows Current Writting Notice: {notice}</div>
+        {/* <div>Shows Current Writting Notice: {notice}</div>
         
         <div style={{display: 'block'}} id="createTool">
           <div>Create Notice</div>
           <input type="text" onChange={onChangeNoticeInput} />
           <button onClick={createNotice}>Save Notice</button>
-        </div>
+        </div> */}
         
         <div style={{display: 'none'}} id="editTool">
           <div>Edit Notice index: {selectedNoticeIndex}</div>
