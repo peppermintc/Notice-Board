@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import logo from './img/logo.png';
@@ -15,7 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 
-let dummy = ['This is example Notice 1', 'This is example Notice 2'];
+let dummy = [{title:'This is example Notice 2',content:"this is example content"}, {title:'This is example Notice 2',content:"this is example content"} ];
 
 function App() {
 
@@ -25,20 +25,29 @@ function App() {
   const editTool = document.getElementById("editTool");
   
   // Hook
-  const [notice, setNotice] = useState('');
+  const [noticeTitle, setNoticeTitle] = useState('');
+  const [noticeContent, setNoticeContent] = useState('');
+  const [notice, setNotice] = useState({});
   const [noticeList, setNoticeList] = useState(dummy);
   const [selectedNoticeIndex, setSelectedNoticeIndex] = useState();
   const [editMode, setEditMode] = useState(false);
   
-  const onChangeNoticeInput = (e) => {
-    setNotice(e.target.value);
+  const onChangeNoticeTitleInput = (e) => {
+    setNoticeTitle(e.target.value);
+  };
+  const onChangeNoticeContentInput = (e) => {
+    setNoticeContent(e.target.value);
   };
   const onChangeNoticeEditInput = (e) => {
     setNotice(e.target.value);
   };
+
+  
+  useEffect(() => {if(!(!notice.title && !notice.content)) setNoticeList([...noticeList, notice])}, [notice])
   const createNotice = () => {
-    setNoticeList([...noticeList, notice]);
+    setNotice({title: noticeTitle, content: noticeContent});
     toggleDialog();
+
   };
   const deleteNotice = (indexToDelete) => {
     setNoticeList([...noticeList].filter((notice, index) => index !== indexToDelete));
@@ -77,7 +86,7 @@ function App() {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{ color: '#FF9500', fontWeight: 'bold', fontSize: '18px' }} >
           <div key={index}>
             Index: {index}<br/>
-            Notice: {notice}
+            Notice: {notice.title}
             <div name="functionButtons" style={{ display: 'block' }}>
               <button onClick={() => toggleEditTextBox(index)}>Edit</button>
               <button onClick={() => deleteNotice(index)}>Delete</button>
@@ -85,7 +94,7 @@ function App() {
           </div> 
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ color: 'white' }}>
-          Hello
+          {notice.content}
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
@@ -94,7 +103,9 @@ function App() {
   const [openDialog, setOpenDialog] = useState(false);
   
   const toggleDialog = () => {
-    setOpenDialog(!openDialog)
+    setOpenDialog(!openDialog);
+    setNoticeTitle('');
+    setNoticeContent('');
   };
 
   // JSX
@@ -116,10 +127,10 @@ function App() {
         <Button onClick={toggleDialog} style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
         <Dialog onClose={toggleDialog} open={openDialog} >
           <DialogTitle id="customized-dialog-title" onClose={toggleDialog} style={{ width: '45vw', maxWidth: '90%' }}>
-            <TextField label="Title" onChange={onChangeNoticeInput} placeholder={"Enter Title"} style={{width:'100%'}}/>
+            <TextField label="Title" onChange={onChangeNoticeTitleInput} placeholder={"Enter Title"} style={{width:'100%'}}/>
           </DialogTitle>
           <DialogContent dividers>
-            <TextField multiline label="Content" rows="9" variant="outlined" style={{width:'100%',height:'28vh'}}/>
+            <TextField multiline label="Content" rows="9" onChange={onChangeNoticeContentInput} variant="outlined" style={{width:'100%',height:'28vh'}}/>
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={()=>createNotice()} color="primary" variant="contained">
