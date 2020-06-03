@@ -15,66 +15,38 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 
-let dummy = [{title:'This is example Notice 2',content:"this is example content"}, {title:'This is example Notice 2',content:"this is example content"} ];
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
+let dummy = [{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ];
 
 function App() {
-
-  // DOM
-  const noticeEditTextInputBox = document.getElementById("noticeEditTextInputBox");
-  const createTool = document.getElementById("createTool");
-  const editTool = document.getElementById("editTool");
-  
-  
-  
   // Hook
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
   const [notice, setNotice] = useState({});
   const [noticeList, setNoticeList] = useState(dummy);
   const [selectedNoticeIndex, setSelectedNoticeIndex] = useState();
-  const [editMode, setEditMode] = useState(false);
   
+  // Onchange event
   const onChangeNoticeTitleInput = (e) => {
     setNoticeTitle(e.target.value);
   };
   const onChangeNoticeContentInput = (e) => {
     setNoticeContent(e.target.value);
   };
-  const onChangeNoticeEditInput = (e) => {
-    setNotice(e.target.value);
-  };
 
-  
+  // Create
   useEffect(() => {if(!(!notice.title && !notice.content)) setNoticeList([...noticeList, notice])}, [notice])
   const createNotice = () => {
     setNotice({title: noticeTitle, content: noticeContent});
     toggleDialog();
-
   };
+  // Delete
   const deleteNotice = (indexToDelete) => {
     setNoticeList([...noticeList].filter((notice, index) => index !== indexToDelete));
   };
-  const toggleEditTextBox = (index) => {
-    const functionButtons = Array.prototype.slice.call(document.getElementsByName("functionButtons"));
-
-    // Toggle Mode
-    if (editMode === true) {
-      setEditMode(false);
-      createTool.style.display = 'block';
-      editTool.style.display = 'none';
-      functionButtons.map((buttons) => buttons.style.display = 'block');
-    }
-    else {
-      setEditMode(true);
-      createTool.style.display = 'none';
-      editTool.style.display = 'block';
-      console.log(functionButtons);
-      functionButtons.map((buttons) => buttons.style.display = 'none');
-    }
-
-    setSelectedNoticeIndex(index);
-  };
-
+  // Update
   const updateNotice = () => {
     let newList = [...noticeList];
     newList[selectedNoticeIndex].title = noticeTitle;     
@@ -83,19 +55,19 @@ function App() {
     toggleEditDialog();
   };
 
-  // HTML
+  // Notice HTML Piece
   const noticeHTML = (notice, index) => {
     return (
       <ExpansionPanel key={index} style={{width:'60%', backgroundColor: '#1a232e', border: '5px dashed white', margin: '20px'}}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{ color: '#FF9500', fontWeight: 'bold', fontSize: '18px' }} >
-          <div key={index}>
-            Index: {index}<br/>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />} style={{ color: '#FF9500', fontWeight: 'bold', fontSize: '18px' }} >
+          <div key={index} style={{ width:'100%', height: '100%', paddingTop: '3px' }}>
+            Index: {index+1}<br/>
             Notice: {notice.title}
-            <div name="functionButtons" style={{ display: 'block' }}>
-              <button onClick={() => toggleEditDialog(index)}>Edit</button>
-              <button onClick={() => deleteNotice(index)}>Delete</button>
-            </div>
           </div> 
+          <div style={{ display: 'inline-block', float: 'right', verticalAlign: 'center' }}>
+              <Button size="small" startIcon={<EditIcon style={{ color: 'white' }}/>} style={{ color: 'white' }} onClick={() => toggleEditDialog(index)}>Edit</Button>
+              <Button size="small" startIcon={<DeleteIcon style={{ color: 'white' }}/>} style={{ color: 'white' }} onClick={() => deleteNotice(index)}>Delete</Button>
+          </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ color: 'white' }}>
           {notice.content}
@@ -104,14 +76,14 @@ function App() {
     );
   };
 
-  // CREATE
+  // CREATE Dialog toggle
   const [openDialog, setOpenDialog] = useState(false);
   const toggleDialog = () => {
     setOpenDialog(!openDialog);
     setNoticeTitle('');
     setNoticeContent('');
   };
-  // EDIT
+  // EDIT Dialog Toggle
   const [openEditDialog, setOpenEditDialog] = useState(false);
   useEffect(() => {
     if(openEditDialog) {
@@ -180,21 +152,8 @@ function App() {
           </DialogActions>
         </Dialog>
 
+        {/* NOTICE LIST */}
         {noticeList.map((notice, index) => { return noticeHTML(notice, index); })}
-
-        {/* <div>Shows Current Writting Notice: {notice}</div>
-        
-        <div style={{display: 'block'}} id="createTool">
-          <div>Create Notice</div>
-          <input type="text" onChange={onChangeNoticeInput} />
-          <button onClick={createNotice}>Save Notice</button>
-        </div> */}
-        
-        <div style={{display: 'none'}} id="editTool">
-          <div>Edit Notice index: {selectedNoticeIndex}</div>
-          <input type="text" id="noticeEditTextInputBox" onChange={onChangeNoticeEditInput} />
-          <button onClick={updateNotice}>Save Notice</button>
-        </div>
       </div>
     </div>
   );
