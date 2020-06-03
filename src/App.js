@@ -24,6 +24,8 @@ function App() {
   const createTool = document.getElementById("createTool");
   const editTool = document.getElementById("editTool");
   
+  
+  
   // Hook
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
@@ -72,11 +74,13 @@ function App() {
 
     setSelectedNoticeIndex(index);
   };
+
   const updateNotice = () => {
     let newList = [...noticeList];
-    newList[selectedNoticeIndex] = noticeEditTextInputBox.value;     
+    newList[selectedNoticeIndex].title = noticeTitle;     
+    newList[selectedNoticeIndex].content = noticeContent;     
     setNoticeList(newList);
-    toggleEditTextBox();
+    toggleEditDialog();
   };
 
   // HTML
@@ -88,7 +92,7 @@ function App() {
             Index: {index}<br/>
             Notice: {notice.title}
             <div name="functionButtons" style={{ display: 'block' }}>
-              <button onClick={() => toggleEditTextBox(index)}>Edit</button>
+              <button onClick={() => toggleEditDialog(index)}>Edit</button>
               <button onClick={() => deleteNotice(index)}>Delete</button>
             </div>
           </div> 
@@ -100,12 +104,27 @@ function App() {
     );
   };
 
+  // CREATE
   const [openDialog, setOpenDialog] = useState(false);
-  
   const toggleDialog = () => {
     setOpenDialog(!openDialog);
     setNoticeTitle('');
     setNoticeContent('');
+  };
+  // EDIT
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  useEffect(() => {
+    if(openEditDialog) {
+      setNoticeTitle(noticeList[selectedNoticeIndex].title);
+      setNoticeContent(noticeList[selectedNoticeIndex].content);
+    } else {
+      setNoticeTitle('');
+      setNoticeContent('');
+    }
+  }, [openEditDialog]);
+  const toggleEditDialog = (index) => {
+    setSelectedNoticeIndex(index);
+    setOpenEditDialog(!openEditDialog);
   };
 
   // JSX
@@ -123,8 +142,10 @@ function App() {
 
       <div style={{ color:'white', float: 'left', width: '85%', height: '100%', backgroundColor: '#1a232e' }}>
         <div style={{ height:'96px', width: '100%', backgroundColor: '#1a232e' }} />
-        <div style={{ fontWeight: 'bold', marginLeft: '20px', fontSize: '20px', display: 'inline-block'}}>Total List : {noticeList.length}</div>
+        <div style={{ fontWeight: 'bold', marginLeft: '20px', fontSize: '20px', display: 'inline-block'}}>Total Notice : {noticeList.length}</div>
         <Button onClick={toggleDialog} style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
+
+        {/* CREATE DIALOG */}
         <Dialog onClose={toggleDialog} open={openDialog} >
           <DialogTitle id="customized-dialog-title" onClose={toggleDialog} style={{ width: '45vw', maxWidth: '90%' }}>
             <TextField label="Title" onChange={onChangeNoticeTitleInput} placeholder={"Enter Title"} style={{width:'100%'}}/>
@@ -137,6 +158,23 @@ function App() {
               Save
             </Button>
             <Button onClick={toggleDialog} color="primary" variant="contained">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* EDIT DIALOG */}
+        <Dialog onClose={toggleEditDialog} open={openEditDialog} >
+          <DialogTitle id="customized-dialog-title" onClose={toggleEditDialog} style={{ width: '45vw', maxWidth: '90%' }}>
+            <TextField label="Title" value={noticeTitle} onChange={onChangeNoticeTitleInput} style={{width:'100%'}}/>
+          </DialogTitle>
+          <DialogContent dividers>
+            <TextField multiline label="Content" value={noticeContent} rows="9" onChange={onChangeNoticeContentInput} variant="outlined" style={{width:'100%',height:'28vh'}}/>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={()=>updateNotice()} color="primary" variant="contained">
+              Save
+            </Button>
+            <Button onClick={toggleEditDialog} color="primary" variant="contained">
               Close
             </Button>
           </DialogActions>
