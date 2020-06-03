@@ -18,16 +18,20 @@ import TextField from '@material-ui/core/TextField';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-let dummy = [{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ];
+let dummy = [[{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ],[{title:'This is example Notice 1',content:"this is example content 1"}]];
 
 function App() {
   // Hook
+  const [noticePage, setNoticePage] = useState(0);
+  const [noticeListTitle, setNoticeListTitle] = useState(['Work','Basketball Team']);
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
   const [notice, setNotice] = useState({});
-  const [noticeList, setNoticeList] = useState(dummy);
+  const [noticeList, setNoticeList] = useState(dummy[noticePage]);
   const [selectedNoticeIndex, setSelectedNoticeIndex] = useState();
   
+  useEffect(()=>{setNoticeList(dummy[noticePage])},[noticePage]);
+
   // Onchange event
   const onChangeNoticeTitleInput = (e) => {
     setNoticeTitle(e.target.value);
@@ -107,15 +111,13 @@ function App() {
         <div>
           <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
-        <ListItem button>Hellow</ListItem>
-        <ListItem button>Hellow</ListItem>
-        <ListItem button>Hellow</ListItem>        
+        {dummy.map((noticeList, index) => { return ( <ListItem button onClick={()=>setNoticePage(index)}>{noticeListTitle[index]}</ListItem> ); })}
       </List>
 
       <div style={{ color:'white', float: 'left', width: '85%', height: '100%', backgroundColor: '#1a232e' }}>
         <div style={{ height:'96px', width: '100%', backgroundColor: '#1a232e' }} />
         <div style={{ fontWeight: 'bold', marginLeft: '20px', fontSize: '20px', display: 'inline-block'}}>Total Notice : {noticeList.length}</div>
-        <Button onClick={toggleDialog} style={{ marginLeft: '45%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
+        <Button onClick={toggleDialog} style={{ marginLeft: '43%', backgroundColor: '#FF9500', color: '#1a232e', fontWeight: 'bold', paddingLeft: '15px', paddingRight: '15px' }}>Create</Button>
 
         {/* CREATE DIALOG */}
         <Dialog onClose={toggleDialog} open={openDialog} >
