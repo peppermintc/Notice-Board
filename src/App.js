@@ -21,7 +21,7 @@ import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 
 
-let dummy = [[{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ],[{title:'This is example Notice 1',content:"this is example content 1"}],[{title:'This is example Notice 1',content:"this is example content 1"},{title:'This is example Notice 2',content:"this is example content 2"},{title:'This is example Notice 3',content:"this is example content 3"}]];
+let dummy = [[{title:'This is example Notice 1',content:"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. 1"}, {title:'This is example Notice 2',content:"this is example content"} ],[{title:'This is example Notice 1',content:"this is example content 1"}],[{title:'This is example Notice 1',content:"this is example content 1"},{title:'This is example Notice 2',content:"this is example content 2"},{title:'This is example Notice 3',content:"this is example content 3"}]];
 
 function App() {
   // Hook
