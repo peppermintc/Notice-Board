@@ -21,13 +21,13 @@ import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 
 
-let dummy = [[{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ],[{title:'This is example Notice 1',content:"this is example content 1"}]];
+let dummy = [[{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ],[{title:'This is example Notice 1',content:"this is example content 1"}],[{title:'This is example Notice 1',content:"this is example content 1"},{title:'This is example Notice 2',content:"this is example content 2"},{title:'This is example Notice 3',content:"this is example content 3"}]];
 
 function App() {
   // Hook
   const [noticePage, setNoticePage] = useState(0);
   const [typingListTitle, setTypingListTitle] = useState('');
-  const [noticeListTitle, setNoticeListTitle] = useState(['Work','Basketball Team']);
+  const [noticeListTitle, setNoticeListTitle] = useState(['Work','Basketball Team','Shopping List']);
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
   const [notice, setNotice] = useState({});
@@ -62,6 +62,7 @@ function App() {
     dummy = [...dummy, []];
 
     setTypingListTitle('');
+    setNoticePage(newList.length-1);
     toggleNewListDialog();
   };
   
@@ -134,6 +135,21 @@ function App() {
     setOpenNewListDialog(!openNewListDialog);
   };
 
+  // Remove Board
+  const removeBoard = (indexToDelete) => {
+    if(dummy.length !== 1) {
+      if(indexToDelete-1<0)
+        setNoticePage(0);
+      else
+        setNoticePage(indexToDelete-1);
+      dummy = [...dummy].filter((notice, index) => index !== indexToDelete);
+      setNoticeListTitle([...noticeListTitle].filter((notice, index) => index !== indexToDelete));
+    }
+    else {
+      alert('At least 1 board must exist');
+    }
+  };
+
   // JSX
   return (
     <div style={{height: '100%'}}>
@@ -143,11 +159,19 @@ function App() {
           <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
         
-        {noticeListTitle.map((noticeList, index) => { return ( <ListItem button onClick={()=>setNoticePage(index)}>{noticeListTitle[index]}</ListItem> ); })}
+        {noticeListTitle.map((noticeList, index) => { return ( 
+          <div>
+            <ListItem button onClick={()=>setNoticePage(index)} style={{float:'left', display:'inline-block', width:'90%'}}>{noticeListTitle[index]}</ListItem> 
+            <RemoveCircleOutline onClick={()=>removeBoard(index)} style={{color:'#FF9500', cursor:'pointer', float: 'left', display:'inline-block', marginTop:'9px'}} fontSize="small"/>
+          </div>
+        ); })}
 
-        <div style={{textAlign:'center', marginTop:'30px', marginBottom:'20px'}}>
-          <AddCircleOutline onClick={toggleNewListDialog} style={{color:'#FF9500', marginRight:'20px', cursor:'pointer'}} fontSize="large"/>
-          <RemoveCircleOutline onClick={console.log('haha')} style={{color:'#FF9500', marginLeft:'20px', cursor:'pointer'}} fontSize="large"/>
+        <div style={{textAlign:'center', marginTop:'60px', marginBottom:'20px'}}>
+          <div onClick={toggleNewListDialog} style={{color:'#FF9500', cursor:'pointer'}}>
+            <AddCircleOutline style={{marginTop:'30px'}} fontSize="large"/>
+            <span style={{display:'inline-block',verticalAlign:'middle', paddingBottom:'28px',paddingLeft:'5px'}}>NEW BOARD</span>
+          </div>
+          
           {/* ADD LIST DIALOG */}
           <Dialog onClose={toggleNewListDialog} open={openNewListDialog} >
             <DialogTitle id="customized-dialog-title" onClose={toggleNewListDialog} >
