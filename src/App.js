@@ -17,12 +17,16 @@ import TextField from '@material-ui/core/TextField';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
+import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
+
 
 let dummy = [[{title:'This is example Notice 1',content:"this is example content 1"}, {title:'This is example Notice 2',content:"this is example content"} ],[{title:'This is example Notice 1',content:"this is example content 1"}]];
 
 function App() {
   // Hook
   const [noticePage, setNoticePage] = useState(0);
+  const [typingListTitle, setTypingListTitle] = useState('');
   const [noticeListTitle, setNoticeListTitle] = useState(['Work','Basketball Team']);
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
@@ -30,7 +34,8 @@ function App() {
   const [noticeList, setNoticeList] = useState(dummy[noticePage]);
   const [selectedNoticeIndex, setSelectedNoticeIndex] = useState();
   
-  useEffect(()=>{setNoticeList(dummy[noticePage])},[noticePage]);
+  useEffect(()=>{setNoticeList(dummy[noticePage])},[noticePage,noticeListTitle]);
+  useEffect(()=>{dummy[noticePage] = noticeList},[noticeList]);
 
   // Onchange event
   const onChangeNoticeTitleInput = (e) => {
@@ -39,7 +44,20 @@ function App() {
   const onChangeNoticeContentInput = (e) => {
     setNoticeContent(e.target.value);
   };
+  const onChangeListTitleInput = (e) => {
+    setTypingListTitle(e.target.value);
+  };
+  
+  // ADD LIST
+  const addNewList = () => {
+    let newList = [...noticeListTitle, typingListTitle];
+    setNoticeListTitle(newList);
 
+    dummy = [...dummy, []];
+
+    toggleNewListDialog();
+  };
+  
   // Create
   useEffect(() => {if(!(!notice.title && !notice.content)) setNoticeList([...noticeList, notice])}, [notice])
   const createNotice = () => {
@@ -103,6 +121,12 @@ function App() {
     setOpenEditDialog(!openEditDialog);
   };
 
+  // ADD NEW LIST Dialog toggle
+  const [openNewListDialog, setOpenNewListDialog] = useState(false);
+  const toggleNewListDialog = () => {
+    setOpenNewListDialog(!openNewListDialog);
+  };
+
   // JSX
   return (
     <div style={{height: '100%'}}>
@@ -111,7 +135,28 @@ function App() {
         <div>
           <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
-        {dummy.map((noticeList, index) => { return ( <ListItem button onClick={()=>setNoticePage(index)}>{noticeListTitle[index]}</ListItem> ); })}
+        <div style={{textAlign:'center', marginTop:'30px', marginBottom:'20px'}}>
+          <AddCircleOutline onClick={toggleNewListDialog} style={{color:'#FF9500', marginRight:'20px', cursor:'pointer'}} fontSize="large"/>
+          <RemoveCircleOutline onClick={console.log('haha')} style={{color:'#FF9500', marginLeft:'20px', cursor:'pointer'}} fontSize="large"/>
+          {/* ADD LIST DIALOG */}
+          <Dialog onClose={toggleNewListDialog} open={openNewListDialog} >
+            <DialogTitle id="customized-dialog-title" onClose={toggleNewListDialog} >
+              Enter New Board Name
+            </DialogTitle>
+            <DialogContent dividers>
+              <TextField multiline label="Board Name" rows="1" onChange={onChangeListTitleInput} variant="outlined" style={{width:'100%'}}/>
+            </DialogContent>
+            <DialogActions>
+              <Button autoFocus onClick={()=>addNewList()} color="primary" variant="contained">
+                Save
+              </Button>
+              <Button onClick={toggleNewListDialog} color="primary" variant="contained">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+        {noticeListTitle.map((noticeList, index) => { return ( <ListItem button onClick={()=>setNoticePage(index)}>{noticeListTitle[index]}</ListItem> ); })}
       </List>
 
       <div style={{ color:'white', float: 'left', width: '85%', height: '100%', backgroundColor: '#1a232e' }}>
