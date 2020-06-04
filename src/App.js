@@ -50,11 +50,18 @@ function App() {
   
   // ADD LIST
   const addNewList = () => {
-    let newList = [...noticeListTitle, typingListTitle];
+    let newList = [];
+
+    if(typingListTitle == '')
+      newList = [...noticeListTitle];
+    else
+      newList = [...noticeListTitle, typingListTitle];
+    
     setNoticeListTitle(newList);
 
     dummy = [...dummy, []];
 
+    setTypingListTitle('');
     toggleNewListDialog();
   };
   
@@ -135,6 +142,9 @@ function App() {
         <div>
           <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
+        
+        {noticeListTitle.map((noticeList, index) => { return ( <ListItem button onClick={()=>setNoticePage(index)}>{noticeListTitle[index]}</ListItem> ); })}
+
         <div style={{textAlign:'center', marginTop:'30px', marginBottom:'20px'}}>
           <AddCircleOutline onClick={toggleNewListDialog} style={{color:'#FF9500', marginRight:'20px', cursor:'pointer'}} fontSize="large"/>
           <RemoveCircleOutline onClick={console.log('haha')} style={{color:'#FF9500', marginLeft:'20px', cursor:'pointer'}} fontSize="large"/>
@@ -156,7 +166,6 @@ function App() {
             </DialogActions>
           </Dialog>
         </div>
-        {noticeListTitle.map((noticeList, index) => { return ( <ListItem button onClick={()=>setNoticePage(index)}>{noticeListTitle[index]}</ListItem> ); })}
       </List>
 
       <div style={{ color:'white', float: 'left', width: '85%', height: '100%', backgroundColor: '#1a232e' }}>
