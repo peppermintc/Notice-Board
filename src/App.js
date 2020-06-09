@@ -170,7 +170,7 @@ function App() {
       {/* Sidebar */}
       <List style={{ float: 'left', height: '100%', backgroundColor: '#1a232e', color: 'white', width: '15%', padding: '0 0 0 0'}}>
         <div>
-          <a href="/"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
+          <a href="/Notice-Board"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
         
         {noticeListTitle.map((noticeList, index) => { return ( 
