@@ -20,7 +20,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 
-// Dummy Data
+//Cookie
+import { useCookies } from 'react-cookie';
+
+// Dummy data
 let dummy = [
   [
     {title:'This is example Notice 1',content:"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. 1"}, 
@@ -37,6 +40,23 @@ let dummy = [
 ];
 
 function App() {
+  // Cookie
+  const [cookies, setCookie, removeCookie] = useCookies(['dummy']);
+  
+  useEffect(() => {
+    if(cookies.dummy)
+      alert('not empty');
+    else
+      alert('empty');
+    if(cookies.dummy){      
+      dummy = cookies.dummy;
+    }
+    else{
+      setCookie('dummy', dummy, { path: '/'});
+    }
+  },[]);
+  
+  
   // Hook
   const [noticePage, setNoticePage] = useState(0);
   const [typingListTitle, setTypingListTitle] = useState('');
@@ -47,10 +67,11 @@ function App() {
   const [noticeList, setNoticeList] = useState(dummy[noticePage]);
   const [selectedNoticeIndex, setSelectedNoticeIndex] = useState();
   
+  
   // Changing Board
   useEffect(()=>{setNoticeList(dummy[noticePage])},[noticePage,noticeListTitle]);
   useEffect(()=>{dummy[noticePage] = noticeList},[noticeList]);
-
+  
   // Onchange event
   const onChangeNoticeTitleInput = (e) => {
     setNoticeTitle(e.target.value);
@@ -62,17 +83,20 @@ function App() {
     setTypingListTitle(e.target.value);
   };
   
+  // dummy cookie update
+  useEffect(()=>{setCookie('dummy', dummy, { path: '/' }); console.log(cookies.dummy)},[dummy,noticeList]);
+  
   // ADD LIST
   const addNewList = () => {
     let newList = [];
-
+    
     if(typingListTitle == '')
-      newList = [...noticeListTitle];
+    newList = [...noticeListTitle];
     else
-      newList = [...noticeListTitle, typingListTitle];
+    newList = [...noticeListTitle, typingListTitle];
     
     setNoticeListTitle(newList);
-
+    
     dummy = [...dummy, []];
 
     setTypingListTitle('');
@@ -174,7 +198,7 @@ function App() {
         </div>
         
         {noticeListTitle.map((noticeList, index) => { return ( 
-          <div>
+          <div key={index}>
             <ListItem button onClick={()=>setNoticePage(index)} style={{float:'left', display:'inline-block', width:'90%'}}>{noticeListTitle[index]}</ListItem> 
             <RemoveCircleOutline onClick={()=>removeBoard(index)} style={{color:'#FF9500', cursor:'pointer', float: 'left', display:'inline-block', marginTop:'9px'}} fontSize="small"/>
           </div>
