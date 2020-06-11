@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Notice-Board/static/css/main.97708c48.chunk.css",
-    "main.js": "/Notice-Board/static/js/main.654135e2.chunk.js",
-    "main.js.map": "/Notice-Board/static/js/main.654135e2.chunk.js.map",
+    "main.js": "/Notice-Board/static/js/main.e7c02604.chunk.js",
+    "main.js.map": "/Notice-Board/static/js/main.e7c02604.chunk.js.map",
     "runtime-main.js": "/Notice-Board/static/js/runtime-main.23786348.js",
     "runtime-main.js.map": "/Notice-Board/static/js/runtime-main.23786348.js.map",
     "static/js/2.95f6edcb.chunk.js": "/Notice-Board/static/js/2.95f6edcb.chunk.js",
     "static/js/2.95f6edcb.chunk.js.map": "/Notice-Board/static/js/2.95f6edcb.chunk.js.map",
     "index.html": "/Notice-Board/index.html",
-    "precache-manifest.e28a3350c132a160b14e4b13677e1084.js": "/Notice-Board/precache-manifest.e28a3350c132a160b14e4b13677e1084.js",
+    "precache-manifest.6ea83f9afaba339d66346c5e877b9ba8.js": "/Notice-Board/precache-manifest.6ea83f9afaba339d66346c5e877b9ba8.js",
     "service-worker.js": "/Notice-Board/service-worker.js",
     "static/css/main.97708c48.chunk.css.map": "/Notice-Board/static/css/main.97708c48.chunk.css.map",
     "static/js/2.95f6edcb.chunk.js.LICENSE.txt": "/Notice-Board/static/js/2.95f6edcb.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.23786348.js",
     "static/js/2.95f6edcb.chunk.js",
     "static/css/main.97708c48.chunk.css",
-    "static/js/main.654135e2.chunk.js"
+    "static/js/main.e7c02604.chunk.js"
   ]
 }
