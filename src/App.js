@@ -45,9 +45,8 @@ function App() {
   
   useEffect(() => {
     if(cookies.dummy)
-      alert('not empty');
-    else
-      alert('empty');
+      alert('Cookie data loaded!');
+      
     if(cookies.dummy){      
       dummy = cookies.dummy;
     }
