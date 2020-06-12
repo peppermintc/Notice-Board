@@ -20,9 +20,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
 
-//Cookie
-import { useCookies } from 'react-cookie';
-
 // Dummy data
 let dummy = [
   [
@@ -40,22 +37,6 @@ let dummy = [
 ];
 
 function App() {
-  // Cookie
-  const [cookies, setCookie, removeCookie] = useCookies(['dummy']);
-  
-  useEffect(() => {
-    if(cookies.dummy)
-      alert('Cookie data loaded!');
-      
-    if(cookies.dummy){      
-      dummy = cookies.dummy;
-    }
-    else{
-      setCookie('dummy', dummy, { path: '/'});
-    }
-  },[]);
-  
-  
   // Hook
   const [noticePage, setNoticePage] = useState(0);
   const [typingListTitle, setTypingListTitle] = useState('');
@@ -66,9 +47,8 @@ function App() {
   const [noticeList, setNoticeList] = useState(dummy[noticePage]);
   const [selectedNoticeIndex, setSelectedNoticeIndex] = useState();
   
-  
   // Changing Board
-  useEffect(()=>{setNoticeList(dummy[noticePage])},[noticePage,noticeListTitle]);
+  useEffect(()=>{setNoticeList(dummy[noticePage]);},[noticePage,noticeListTitle]);
   useEffect(()=>{dummy[noticePage] = noticeList},[noticeList]);
   
   // Onchange event
@@ -82,9 +62,6 @@ function App() {
     setTypingListTitle(e.target.value);
   };
   
-  // dummy cookie update
-  useEffect(()=>{setCookie('dummy', dummy, { path: '/' }); console.log(cookies.dummy)},[dummy,noticeList]);
-  
   // ADD LIST
   const addNewList = () => {
     let newList = [];
@@ -97,7 +74,7 @@ function App() {
     setNoticeListTitle(newList);
     
     dummy = [...dummy, []];
-
+    
     setTypingListTitle('');
     setNoticePage(newList.length-1);
     toggleNewListDialog();
@@ -121,7 +98,7 @@ function App() {
     setNoticeList(newList);
     toggleEditDialog();
   };
-
+  
   // Notice HTML Piece
   const noticeHTML = (notice, index) => {
     return (
@@ -177,11 +154,11 @@ function App() {
     if(dummy.length !== 1) {
       if(indexToDelete-1<0)
         setNoticePage(0);
-      else
+        else
         setNoticePage(indexToDelete-1);
-      dummy = [...dummy].filter((notice, index) => index !== indexToDelete);
-      setNoticeListTitle([...noticeListTitle].filter((notice, index) => index !== indexToDelete));
-    }
+        dummy = [...dummy].filter((notice, index) => index !== indexToDelete);
+        setNoticeListTitle([...noticeListTitle].filter((notice, index) => index !== indexToDelete));
+      }
     else {
       alert('At least 1 board must exist');
     }
@@ -196,7 +173,7 @@ function App() {
           <a href="/Notice-Board"><img src={logo} alt="logo" style={{ width: '250px', margin: '20px 10px 10px 10px' }}/></a>
         </div>
         
-        {noticeListTitle.map((noticeList, index) => { return ( 
+        {noticeListTitle.map((noticeList, index) => {return ( 
           <div key={index}>
             <ListItem button onClick={()=>setNoticePage(index)} style={{float:'left', display:'inline-block', width:'90%'}}>{noticeListTitle[index]}</ListItem> 
             <RemoveCircleOutline onClick={()=>removeBoard(index)} style={{color:'#FF9500', cursor:'pointer', float: 'left', display:'inline-block', marginTop:'9px'}} fontSize="small"/>
